@@ -45,7 +45,7 @@ set(LIB_test1_INCLUDES
     ${OS_INCLUDE}
     ${SPEC_INCLUDE}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    
+
 #    ${OpenCV_INCLUDE_DIRS}
     )
 
@@ -118,6 +118,5 @@ custom_add_static_lib( ${LIB_test2}
     "${LIB_test2_LINK_LIBS}"
     )
 #-------------------------------------
-
 
 

@@ -20,7 +20,10 @@
     #ifdef __GNUC__
       #define DLL_PUBLIC_T __attribute__ ((dllimport))
     #else
-      #define DLL_PUBLIC_T __declspec(dllimport) // Note: actually gcc seems to also supports this syntax.
+//#define DLL_PUBLIC_T __declspec(dllimport) // Note: actually gcc seems to also supports this syntax.
+// https://stackoverflow.com/questions/5159353/how-can-i-get-rid-of-the-imp-prefix-in-the-linker-in-vc
+// Для статики нельзя делать префикс __declspec(dllimport)!!!
+        #define DLL_PUBLIC_T
     #endif
   #endif
   #define DLL_LOCAL_T

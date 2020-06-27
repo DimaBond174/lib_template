@@ -3,7 +3,8 @@
 #  Copyright (c) Dmitriy Bondarenko
 #  feel free to contact me: specnet.messenger@gmail.com
 
-function(custom_enable_cxx17 TARGET)   
+function(custom_enable_cxx17 TARGET)
+    message("custom_enable_cxx17 CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
     if (CMAKE_CXX_COMPILER STREQUAL "clang++")
       message("custom_enable_cxx17: clang++: ${TARGET}")
 #      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -v")
@@ -19,7 +20,8 @@ function(custom_enable_cxx17 TARGET)
         target_link_libraries(${TARGET}
             dl
             )
-    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    #elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    elseif ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
         message("custom_enable_cxx17 MSVC: ${TARGET}")
         set_target_properties(${TARGET} PROPERTIES COMPILE_FLAGS "/std:c++latest")
     else()
@@ -37,7 +39,7 @@ function(custom_enable_cxx17libc TARGET)
         set_target_properties(${TARGET} PROPERTIES COMPILE_FLAGS "-stdlib=libc++ -pthread -Wall -pedantic")
 #        set_target_properties(${TARGET} PROPERTIES COMPILE_FLAGS "-I${CLANGPATH}/include/c++/v1")
         target_include_directories(${TARGET} PRIVATE "${CLANG_PATH}/include/c++/v1")
-        target_link_libraries(${TARGET}            
+        target_link_libraries(${TARGET}
             c++experimental
             c++
             c++abi)
@@ -69,7 +71,7 @@ endfunction()
 
 
 # Add TARGET - executive:
-function(custom_add_executable_from_dir TARGET)   
+function(custom_add_executable_from_dir TARGET)
     file(GLOB TARGET_SRC "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
     add_executable(${TARGET} ${TARGET_SRC})
 endfunction()
@@ -84,11 +86,13 @@ function(custom_add_executable TARGET
         TARGET_PROPERTIES
         )
     message(STATUS "custom_add_executable: ${TARGET}")
-    # Output folder for binaries    
+    # Output folder for binaries
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${TARGET_BUILD_DIR})
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${TARGET_BUILD_DIR})
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TARGET_BUILD_DIR})
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG  ${TARGET_BUILD_DIR})
+   # set(CMAKE_BINARY_DIR  ${SPEC_BUILD_DIR})
+    #link_directories(${TARGET_BUILD_DIR}/Debug)
 
     message(STATUS "TARGET_SRC: ${TARGET_SRC}")
 
@@ -101,6 +105,10 @@ function(custom_add_executable TARGET
     target_compile_definitions(${TARGET} PUBLIC ${TARGET_DEFINITIONS})
     message(STATUS "link_libraries: ${TARGET_LINK_LIBS}")
     target_link_libraries(${TARGET}  ${TARGET_LINK_LIBS}  )
+   # find_library(testlib1_LIBRARY testlib1 HINTS ${TARGET_BUILD_DIR})
+   # message("testlib1_LIBRARY : ${testlib1_LIBRARY}")
+   # target_link_libraries(${TARGET} PUBLIC ${testlib1_LIBRARY})
+
     message(STATUS "target_properties: ${TARGET_PROPERTIES}")
     if (NOT("${TARGET_PROPERTIES}" STREQUAL ""))
         set_target_properties(${TARGET}

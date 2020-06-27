@@ -36,18 +36,20 @@ if("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
 
 elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
    message(STATUS "Windows was chosen ")
-#   set(OS_INCLUDE
-#       ${SPEC_SRC_COMMON}/system/windows
-#       )
 
-#  set(OS_SRC
-#    ${SPEC_SRC_COMMON}/system/windows/windowssystem.cpp
-#    )
+set(OS_INCLUDE
+  ${OS_INCLUDE}
+  ${SPEC_SRC_COMMON}/system/windows
+     )
+
+set(OS_SRC
+  ${OS_SRC}
+  ${SPEC_SRC_COMMON}/system/windows/windowssystem.cpp
+   )
 
    set(OS_DEFINITIONS
     "WIN32_LEAN_AND_MEAN"
     FD_SETSIZE=1024
   )
 endif()
-
-
+message("OS_SRC : ${OS_SRC}")

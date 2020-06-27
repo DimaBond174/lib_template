@@ -59,6 +59,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${SPEC_BUILD_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SPEC_BUILD_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SPEC_BUILD_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG  ${SPEC_BUILD_DIR})
+#set(CMAKE_BINARY_DIR  ${SPEC_BUILD_DIR})
 
 #set(SPEC_BUILD_DIR_REL ${CMAKE_CURRENT_SOURCE_DIR}/${PROJ_TEMP_BINARY_DIR})
 #get_filename_component(CMAKE_BINARY_DIR "${SPEC_BUILD_DIR_REL}"
@@ -83,8 +84,8 @@ set(SPEC_LIB_DIR
 
   # Configuration of the assembly
   #   according to the selected components:
-set(SPEC_DEFINITIONS    
-      ${CMAKE_SYSTEM_NAME}            
+set(SPEC_DEFINITIONS
+      ${CMAKE_SYSTEM_NAME}
       ${CMAKE_BUILD_TYPE}
       ${SPEC_BUILD}
       SPEC_VERSION="${Proj_VERSION}"
@@ -98,6 +99,8 @@ if (Provide_inline_unit_tests)
     )
 endif()
 
+message("SPEC_DEFINITIONS: ${SPEC_DEFINITIONS}")
+
 include(cmake/common.cmake)
 
 message("Bulding main lib")
@@ -108,5 +111,4 @@ if (CREATE_TESTS)
   message(STATUS "Building Tests..")
   add_subdirectory(src/main_test)
 endif()
-
 
